@@ -5,17 +5,16 @@
 #include <SDL_mixer.h>
 #include "Constants.h"
 #include <iostream>
+#include "Texture2D.h"
 using namespace std;
 SDL_Renderer* g_renderer = nullptr;
-SDL_Texture* g_texture = nullptr;
+Texture2D* g_texture = nullptr;
 
 //func prototypes
 bool InitSDL();
 void CloseSDL();
 bool Update();
 void Render();
-SDL_Texture* LoadTextureFromFile(string path);
-void FreeTexture();
 
 //globals
 SDL_Window* g_window = nullptr;
@@ -86,8 +85,8 @@ bool InitSDL()
 	}
 
 	//load texture
-	g_texture = LoadTextureFromFile("Images/test.bmp");
-	if (g_texture == nullptr)
+	g_texture = new Texture2D(g_renderer);
+	if (!g_texture->LoadFromFile("Images/test.bmp"))
 	{
 		return false;
 	}
@@ -100,7 +99,8 @@ void CloseSDL()
 	//quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
-	FreeTexture();
+	delete g_texture;
+	g_texture = nullptr;
 	SDL_DestroyRenderer(g_renderer);
 	g_renderer = nullptr;
 }
@@ -126,42 +126,9 @@ void Render()
 	//set texture location
 	SDL_Rect renderLocation = { 0,0,SCREEN_WIDTH, SCREEN_HEIGHT };
 	//render to screen
-	SDL_RenderCopyEx(g_renderer, g_texture, NULL, &renderLocation, 0, NULL, SDL_FLIP_NONE);
+	g_texture->Render(Vector2D(), SDL_FLIP_NONE);
 	//update screen
 	SDL_RenderPresent(g_renderer);
 
 }
 
-SDL_Texture* LoadTextureFromFile(string path)
-{
-	FreeTexture();
-	SDL_Texture* p_texture = nullptr;
-
-	//load image
-	SDL_Surface* p_surface = IMG_Load(path.c_str());
-	if (p_surface != nullptr)
-	{
-		p_texture = SDL_CreateTextureFromSurface(g_renderer, p_surface);
-		if (p_texture == nullptr)
-		{
-			cout << "Unable to create texture from surface. Error: " << SDL_GetError();
-		}
-		
-		SDL_FreeSurface(p_surface);
-		return p_texture;
-	}
-	else
-	{
-		cout << "Unable to create texture from surface. Error: " << IMG_GetError();
-	}
-}
-
-void FreeTexture()
-{
-	//check for texture
-	if (g_texture != nullptr)
-	{
-		SDL_DestroyTexture(g_texture);
-		g_texture = nullptr;
-	}
-}
