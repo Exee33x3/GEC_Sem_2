@@ -10,7 +10,7 @@ GameScreen::GameScreen(SDL_Renderer* renderer)
 
 GameScreen::~GameScreen()
 {
-
+	m_renderer = nullptr;
 }
 
 void GameScreen::Render()
