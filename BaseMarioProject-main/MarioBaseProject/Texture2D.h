@@ -1,6 +1,7 @@
 #pragma once
 #ifndef _TEXTURE2D_H
 #define _TEXTURE2D_H
+
 #include <SDL.h>
 #include <string>
 #include "Commons.h"
@@ -16,8 +17,9 @@ public:
 	void Free();
 	void Render(Vector2D new_position, SDL_RendererFlip flip, double angle = 0.0);
 
-	int GetWidth();
-	int GetHeight();
+	int GetWidth() { return m_width; }
+
+	int GetHeight() { return m_height; }
 
 private:
 

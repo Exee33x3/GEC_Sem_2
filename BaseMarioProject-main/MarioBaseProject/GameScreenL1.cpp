@@ -13,16 +13,16 @@ GameScreenL1::~GameScreenL1()
 	m_background_texture = nullptr;
 }
 
-void Render() 
+void GameScreenL1::Render() 
 {
 	m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
 }
-void Update(float deltaTime, SDL_Event e)
+void GameScreenL1::Update(float deltaTime, SDL_Event e)
 {
 
 }
 
-bool SetUpLevel()
+bool GameScreenL1::SetUpLevel()
 {
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/test.bmp"))

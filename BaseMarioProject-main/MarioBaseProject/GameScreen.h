@@ -1,7 +1,8 @@
 #pragma once
 #ifndef _GAMESCREEN_H
 #define _GAMESCREEN_H
-#include "SDL_image.h"
+
+#include <SDL.h>
 
 class GameScreen
 {

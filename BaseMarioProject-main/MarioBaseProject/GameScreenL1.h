@@ -1,6 +1,7 @@
 #pragma once
 #ifndef _GAMESCREENL1_H
 #define _GAMESCREENL1_H
+
 #include "GameScreen.h"
 #include "Commons.h"
 
@@ -25,4 +26,4 @@ public:
 };
 
 
-#endif
+#endif // _GAMESCREENL1_H
