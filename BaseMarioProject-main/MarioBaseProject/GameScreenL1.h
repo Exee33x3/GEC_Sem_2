@@ -4,6 +4,7 @@
 
 #include "GameScreen.h"
 #include "Commons.h"
+#include "Character.h"
 
 class Texture2D;
 
@@ -12,7 +13,7 @@ class GameScreenL1 : GameScreen
 private:
 	Texture2D* m_background_texture;
 	bool SetUpLevel();
-
+	Character* my_character;
 
 public:
 	GameScreenL1(SDL_Renderer* renderer);
