@@ -5,6 +5,8 @@
 #include "GameScreen.h"
 #include "Commons.h"
 #include "Character.h"
+#include "CharacterMario.h"
+#include "CharacterLuigi.h"
 
 class Texture2D;
 
@@ -14,6 +16,8 @@ private:
 	Texture2D* m_background_texture;
 	bool SetUpLevel();
 	Character* my_character;
+	CharacterMario* Mario;
+	CharacterLuigi* Luigi;
 
 public:
 	GameScreenL1(SDL_Renderer* renderer);

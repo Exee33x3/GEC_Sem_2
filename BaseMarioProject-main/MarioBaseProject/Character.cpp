@@ -1,5 +1,6 @@
 #include "Character.h"
 #include "Texture2D.h"
+#include "Constants.h"
 
 Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position)
 {
@@ -37,6 +38,16 @@ void Character::Render()
 
 void Character::Update(float deltaTime, SDL_Event e)
 {
+	if (m_jumping)
+	{
+		m_position.y -= m_jump_force * deltaTime;
+		m_jump_force -= deltaTime * JUMP_FORCE_DECREMENT;
+		if (m_jump_force <= 0.0f)
+		{
+			m_jumping = false;
+		}
+	}
+
 	switch (e.type)
 	{
 	case SDL_KEYDOWN:
@@ -48,7 +59,15 @@ void Character::Update(float deltaTime, SDL_Event e)
 		case SDLK_d:
 			m_moving_right = true;
 			break;
+
+		case SDLK_SPACE:
+			if (m_can_jump = true)
+			{
+			Jump(deltaTime);
+
+			}
 		}
+		break;
 	case SDL_KEYUP:
 		switch (e.key.keysym.sym)
 		{
@@ -59,6 +78,7 @@ void Character::Update(float deltaTime, SDL_Event e)
 			m_moving_right = false;
 			break;
 		}
+
 		
 	}
 	if (m_moving_left)
@@ -69,6 +89,8 @@ void Character::Update(float deltaTime, SDL_Event e)
 	{
 		MoveRight(deltaTime);
 	}
+
+	AddGravity(deltaTime);
 
 }
 
@@ -85,11 +107,32 @@ Vector2D Character::GetPosition()
 void Character::MoveLeft(float deltaTime)
 {
 	m_facing_direction = FACING_LEFT;
-	m_position.x -= deltaTime * 1;
+	m_position.x -= deltaTime * MOVE_SPEED;
 }
 
 void Character::MoveRight(float deltaTime)
 {
 	m_facing_direction = FACING_RIGHT;
-	m_position.x += deltaTime * 1;
+	m_position.x += deltaTime * MOVE_SPEED;
+}
+
+void Character::AddGravity(float deltaTime)
+{
+	if ((m_position.y + 64) >= (SCREEN_HEIGHT))
+	{
+		return;
+	}
+	else
+	{
+		m_can_jump = true;
+	}
+	m_position.y += 200 * deltaTime;
+
+}
+
+void Character::Jump(float deltaTime)
+{
+	m_jump_force = INITIAL_JUMP_FORCE;
+	m_jumping = true;
+	m_can_jump = false;
 }

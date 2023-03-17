@@ -20,9 +20,13 @@ protected:
 	Texture2D* m_texture;
 	bool m_moving_left;
 	bool m_moving_right;
+	bool m_jumping;
+	bool m_can_jump;
+	float m_jump_force;
 
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
+	virtual void Jump(float deltaTime);
 
 public:
 	Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position);
@@ -32,6 +36,7 @@ public:
 	virtual void Update(float deltaTime, SDL_Event e);
 	void SetPosition(Vector2D new_position);
 	Vector2D GetPosition();
+	void AddGravity(float deltaTime);
 
 private:
 	FACING m_facing_direction;
