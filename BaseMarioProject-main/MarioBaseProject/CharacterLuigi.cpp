@@ -33,16 +33,17 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 			{
 				Jump(deltaTime);
 			}
+			break;
 		}
 		break;
 
 	case SDL_KEYUP:
 		switch (e.key.keysym.sym)
 		{
-		case SDLK_LEFT:
+		case SDLK_j:
 			m_moving_left = false;
 			break;
-		case SDLK_RIGHT:
+		case SDLK_l:
 			m_moving_right = false;
 			break;
 		}

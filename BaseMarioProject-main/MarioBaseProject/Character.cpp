@@ -16,6 +16,7 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 	m_facing_direction = FACING_RIGHT;
 	m_moving_left = false;
 	m_moving_right = false;
+	m_collision_radius = 15.0f;
 }
 
 Character::~Character() 
@@ -48,39 +49,7 @@ void Character::Update(float deltaTime, SDL_Event e)
 		}
 	}
 
-	switch (e.type)
-	{
-	case SDL_KEYDOWN:
-		switch (e.key.keysym.sym)
-		{
-		case SDLK_a:
-			m_moving_left = true;
-			break;
-		case SDLK_d:
-			m_moving_right = true;
-			break;
 
-		case SDLK_SPACE:
-			if (m_can_jump = true)
-			{
-			Jump(deltaTime);
-
-			}
-		}
-		break;
-	case SDL_KEYUP:
-		switch (e.key.keysym.sym)
-		{
-		case SDLK_a:
-			m_moving_left = false;
-			break;
-		case SDLK_d:
-			m_moving_right = false;
-			break;
-		}
-
-		
-	}
 	if (m_moving_left)
 	{
 		MoveLeft(deltaTime);
@@ -118,15 +87,15 @@ void Character::MoveRight(float deltaTime)
 
 void Character::AddGravity(float deltaTime)
 {
-	if ((m_position.y + 64) >= (SCREEN_HEIGHT))
+	if ((m_position.y + 64) <= (SCREEN_HEIGHT))
 	{
-		return;
+		m_position.y += 200 * deltaTime;
 	}
 	else
 	{
 		m_can_jump = true;
 	}
-	m_position.y += 200 * deltaTime;
+	
 
 }
 
@@ -135,4 +104,8 @@ void Character::Jump(float deltaTime)
 	m_jump_force = INITIAL_JUMP_FORCE;
 	m_jumping = true;
 	m_can_jump = false;
+}
+float Character::GetCollisionRadius()
+{
+	return m_collision_radius;
 }

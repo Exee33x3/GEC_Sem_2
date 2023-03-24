@@ -23,6 +23,7 @@ protected:
 	bool m_jumping;
 	bool m_can_jump;
 	float m_jump_force;
+	float m_collision_radius;
 
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
@@ -37,6 +38,8 @@ public:
 	void SetPosition(Vector2D new_position);
 	Vector2D GetPosition();
 	void AddGravity(float deltaTime);
+	float GetCollisionRadius();
+	Rect2D GetCollisionsBox() { return Rect2D(m_position.x, m_position.y, m_texture->GetWidth(), m_texture->GetHeight()); }
 
 private:
 	FACING m_facing_direction;

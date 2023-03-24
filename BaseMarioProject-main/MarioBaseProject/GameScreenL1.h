@@ -15,7 +15,7 @@ class GameScreenL1 : GameScreen
 private:
 	Texture2D* m_background_texture;
 	bool SetUpLevel();
-	Character* my_character;
+	//Character* my_character;
 	CharacterMario* Mario;
 	CharacterLuigi* Luigi;
 

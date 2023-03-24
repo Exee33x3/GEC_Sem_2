@@ -84,7 +84,7 @@ bool InitSDL()
 		return false;
 	}
 
-
+	return true;
 }
 void CloseSDL()
 {

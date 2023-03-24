@@ -1,6 +1,7 @@
 #include "GameScreenL1.h"
 #include <iostream>
 #include "Texture2D.h"
+#include "Collisions.h"
 
 GameScreenL1::GameScreenL1(SDL_Renderer* renderer) : GameScreen(renderer)
 {
@@ -33,6 +34,16 @@ void GameScreenL1::Update(float deltaTime, SDL_Event e)
 	// my_character->Update(deltaTime, e);
 	Mario->Update(deltaTime, e);
 	Luigi->Update(deltaTime, e);
+
+	if (Collisions::Instance()->Circle(Mario, Luigi))
+	{
+		cout << "Circle Hit!" << endl;
+	}
+	if (Collisions::Instance()->Box(Mario->GetCollisionsBox(), Luigi->GetCollisionsBox()))
+	{
+		cout << "Box Hit!" << endl;
+	}
+
 }
 
 bool GameScreenL1::SetUpLevel()
@@ -56,8 +67,5 @@ bool GameScreenL1::SetUpLevel()
 		std::cout << "Failed to load background texture!" << std::endl;
 		return false;
 	}
-	else
-	{
-		return true;
-	}
+
 }
