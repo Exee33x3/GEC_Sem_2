@@ -6,6 +6,7 @@ class Character;
 class Collisions
 {
 public:
+	Collisions();
 	~Collisions();
 	static Collisions* Instance();
 
