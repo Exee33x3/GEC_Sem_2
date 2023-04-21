@@ -21,6 +21,8 @@ public:
 
 	int GetHeight() { return m_height; }
 
+	void Render(SDL_Rect src_rect, SDL_Rect src_dest, SDL_RendererFlip flip, double angle = 0.0);
+
 private:
 
 	SDL_Renderer* m_renderer;

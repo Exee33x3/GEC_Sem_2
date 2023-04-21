@@ -37,6 +37,7 @@ GameScreenL1::GameScreenL1(SDL_Renderer* renderer) : GameScreen(renderer)
 GameScreenL1::~GameScreenL1() 
 {
 	m_background_texture = nullptr;
+	m_pow_block = nullptr;
 	// delete my_character;
 	// my_character = nullptr;
 
@@ -53,6 +54,7 @@ void GameScreenL1::Render()
 	// my_character->Render();
 	Mario->Render();
 	Luigi->Render();
+	m_pow_block->Render();
 }
 void GameScreenL1::Update(float deltaTime, SDL_Event e)
 {
@@ -68,6 +70,11 @@ void GameScreenL1::Update(float deltaTime, SDL_Event e)
 	{
 		cout << "Box Hit!" << endl;
 	}
+
+}
+
+void GameScreenL1::UpdatePOWBlock()
+{
 
 }
 
@@ -94,5 +101,5 @@ bool GameScreenL1::SetUpLevel()
 		return false;
 	}
 
-
+	m_pow_block = new POWBlock(m_renderer, m_level_map);
 }
