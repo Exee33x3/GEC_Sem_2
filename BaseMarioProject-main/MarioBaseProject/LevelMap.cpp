@@ -1,5 +1,8 @@
 #include "LevelMap.h"
 
+
+#include <iostream>
+
 LevelMap::LevelMap(int map[MAP_HEIGHT][MAP_WIDTH])
 {
 	//Allocate memory for the level map
@@ -39,4 +42,41 @@ int LevelMap::GetTileAt(unsigned int h, unsigned int w)
 
 	return 0;
 
+}
+
+void LevelMap::ChangeTileAt(unsigned int row, unsigned int column, unsigned int new_value)
+{
+	for (size_t i = 0; i < MAP_HEIGHT; i++)
+	{
+		for (size_t j = 0; j < MAP_WIDTH; j++)
+		{
+			std::cout << m_map[i][j];
+			if (j == 15)
+			{
+
+				std::cout << std::endl;
+			}
+		}
+	}
+				std::cout << std::endl;
+				std::cout << std::endl;
+				std::cout << std::endl;
+
+	if (row < MAP_HEIGHT && column < MAP_WIDTH)
+	{
+		m_map[row][column] = new_value;
+	}
+
+	for (size_t i = 0; i < MAP_HEIGHT; i++)
+	{
+		for (size_t j = 0; j < MAP_WIDTH; j++)
+		{
+			std::cout << m_map[i][j];
+			if (j == 15)
+			{
+
+				std::cout << std::endl;
+			}
+		}
+	}
 }

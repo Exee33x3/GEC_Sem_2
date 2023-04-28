@@ -5,7 +5,8 @@
 
 void GameScreenL1::SetLevelMap()
 {
-	int map[MAP_HEIGHT][MAP_WIDTH] = { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+	int map[MAP_HEIGHT][MAP_WIDTH] = 
+					{ { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
@@ -61,6 +62,7 @@ void GameScreenL1::Update(float deltaTime, SDL_Event e)
 	// my_character->Update(deltaTime, e);
 	Mario->Update(deltaTime, e);
 	Luigi->Update(deltaTime, e);
+	
 
 	if (Collisions::Instance()->Circle(Mario, Luigi))
 	{
@@ -71,16 +73,26 @@ void GameScreenL1::Update(float deltaTime, SDL_Event e)
 		cout << "Box Hit!" << endl;
 	}
 
+	UpdatePOWBlock();
 }
 
 void GameScreenL1::UpdatePOWBlock()
 {
-
+	if (Collisions::Instance()->Box(Mario->GetCollisionsBox(), m_pow_block->GetCollisionBox()))
+	{
+		if (Mario->IsJumping())
+		{
+			//DoScreenShake();
+			m_pow_block->TakeHit();
+			Mario->CancelJump();
+		}
+	}
 }
 
 bool GameScreenL1::SetUpLevel()
 {
 	SetLevelMap();
+	m_pow_block = new POWBlock(m_renderer, m_level_map);
 	// my_character = new Character(m_renderer, "Images/Mario.png", Vector2D(64, 100));
 	Mario = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(64, 100),m_level_map);
 	if (Mario == nullptr)
@@ -101,5 +113,4 @@ bool GameScreenL1::SetUpLevel()
 		return false;
 	}
 
-	m_pow_block = new POWBlock(m_renderer, m_level_map);
 }

@@ -41,6 +41,8 @@ public:
 	void AddGravity(float deltaTime);
 	float GetCollisionRadius();
 	Rect2D GetCollisionsBox();
+	void CancelJump() {  m_jumping = false;  };
+	bool IsJumping() { return m_jumping; };
 
 private:
 	FACING m_facing_direction;
