@@ -80,11 +80,15 @@ void GameScreenL1::UpdatePOWBlock()
 {
 	if (Collisions::Instance()->Box(Mario->GetCollisionsBox(), m_pow_block->GetCollisionBox()))
 	{
-		if (Mario->IsJumping())
+		if (m_pow_block->IsAvailable())
 		{
-			//DoScreenShake();
-			m_pow_block->TakeHit();
-			Mario->CancelJump();
+			if (Mario->IsJumping())
+			{
+				//DoScreenShake();
+				m_pow_block->TakeHit();
+				Mario->CancelJump();
+			}
+
 		}
 	}
 }
