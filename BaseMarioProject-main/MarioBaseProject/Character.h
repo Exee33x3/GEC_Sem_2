@@ -43,9 +43,10 @@ public:
 	Rect2D GetCollisionsBox();
 	void CancelJump() {  m_jumping = false;  };
 	bool IsJumping() { return m_jumping; };
+	FACING m_facing_direction;
 
 private:
-	FACING m_facing_direction;
+
 	LevelMap* m_current_level_map;
 
 };

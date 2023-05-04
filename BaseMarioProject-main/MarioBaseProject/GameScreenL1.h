@@ -9,6 +9,8 @@
 #include "CharacterLuigi.h"
 #include "LevelMap.h"
 #include "POWBlock.h"
+#include <vector>
+#include "CharacterKoopa.h"
 
 class Texture2D;
 class POWBlock;
@@ -26,6 +28,17 @@ private:
 	LevelMap* m_level_map;
 
 	POWBlock* m_pow_block;
+
+	bool m_screenshake;
+	float m_shake_time;
+	float m_wobble;
+	float m_backgrould_yPos;
+
+	void DoScreenShake();
+	void UpdateEnemies(float deltaTime, SDL_Event e);
+	void CreateKoopa(Vector2D position, FACING direction, float speed);
+	vector<CharacterKoopa*> m_enemies;
+
 
 public:
 	GameScreenL1(SDL_Renderer* renderer);

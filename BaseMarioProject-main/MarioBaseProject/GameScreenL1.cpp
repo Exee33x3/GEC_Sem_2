@@ -29,6 +29,8 @@ void GameScreenL1::SetLevelMap()
 
 }
 
+
+
 GameScreenL1::GameScreenL1(SDL_Renderer* renderer) : GameScreen(renderer)
 {
 	SetUpLevel();
@@ -47,11 +49,25 @@ GameScreenL1::~GameScreenL1()
 
 	delete Luigi;
 	Luigi = nullptr;
+
+	for (int i = 0; i < m_enemies.size(); i++)
+	{
+		delete m_enemies[i];
+	}
+	m_enemies.clear();
+
 }
 
 void GameScreenL1::Render() 
 {
-	m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
+	//draw the enemies
+	for (int i = 0; i < m_enemies.size(); i++)
+	{
+		m_enemies[i]->Render();
+	}
+
+
+	m_background_texture->Render(Vector2D(0, m_backgrould_yPos), SDL_FLIP_NONE);
 	// my_character->Render();
 	Mario->Render();
 	Luigi->Render();
@@ -59,6 +75,21 @@ void GameScreenL1::Render()
 }
 void GameScreenL1::Update(float deltaTime, SDL_Event e)
 {
+	if (m_screenshake)
+	{
+		m_shake_time -= deltaTime;
+		m_wobble++;
+		m_backgrould_yPos = sin(m_wobble);
+		m_backgrould_yPos *= 3.0f;
+		if (m_shake_time <= 0.0f)
+		{
+			m_shake_time = false;
+			m_backgrould_yPos = 0.0f;
+		}
+	}
+
+	UpdateEnemies(deltaTime, e);
+
 	// my_character->Update(deltaTime, e);
 	Mario->Update(deltaTime, e);
 	Luigi->Update(deltaTime, e);
@@ -79,12 +110,12 @@ void GameScreenL1::Update(float deltaTime, SDL_Event e)
 void GameScreenL1::UpdatePOWBlock()
 {
 	if (Collisions::Instance()->Box(Mario->GetCollisionsBox(), m_pow_block->GetCollisionBox()))
-	{
+	{            //WARNING: PROBABLY ONLY WORKS FOR MARIO
 		if (m_pow_block->IsAvailable())
 		{
 			if (Mario->IsJumping())
 			{
-				//DoScreenShake();
+				DoScreenShake();
 				m_pow_block->TakeHit();
 				Mario->CancelJump();
 			}
@@ -95,6 +126,8 @@ void GameScreenL1::UpdatePOWBlock()
 
 bool GameScreenL1::SetUpLevel()
 {
+	m_screenshake = false;
+	m_backgrould_yPos = 0.0f;
 	SetLevelMap();
 	m_pow_block = new POWBlock(m_renderer, m_level_map);
 	// my_character = new Character(m_renderer, "Images/Mario.png", Vector2D(64, 100));
@@ -116,5 +149,22 @@ bool GameScreenL1::SetUpLevel()
 		std::cout << "Failed to load background texture!" << std::endl;
 		return false;
 	}
+
+
+}
+void GameScreenL1::DoScreenShake() 
+{
+	m_screenshake = true;
+	m_shake_time = SHAKE_DURATION;
+	m_wobble = 0.0f;
+}
+
+void GameScreenL1::UpdateEnemies(float deltaTime, SDL_Event e)
+{
+
+}
+
+void GameScreenL1::CreateKoopa(Vector2D position, FACING direction, float speed)
+{
 
 }
