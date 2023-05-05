@@ -113,3 +113,8 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e)
 	}
 
 }
+
+void CharacterKoopa::SetAlive(bool isAlive)
+{
+	m_alive = isAlive;
+}

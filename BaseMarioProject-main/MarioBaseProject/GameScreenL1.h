@@ -34,6 +34,9 @@ private:
 	float m_wobble;
 	float m_backgrould_yPos;
 
+	float timerToSpawn;
+	
+
 	void DoScreenShake();
 	void UpdateEnemies(float deltaTime, SDL_Event e);
 	void CreateKoopa(Vector2D position, FACING direction, float speed);
@@ -48,6 +51,7 @@ public:
 	void Update(float deltaTime, SDL_Event e) override;
 
 	void UpdatePOWBlock();
+	void CreateKoopa(Vector2D position, FACING direction, float speed);
 
 
 

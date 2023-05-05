@@ -119,7 +119,12 @@ void GameScreenL1::UpdatePOWBlock()
 				m_pow_block->TakeHit();
 				Mario->CancelJump();
 			}
-
+			if (Luigi->IsJumping())
+			{
+				DoScreenShake();
+				m_pow_block->TakeHit();
+				Luigi->CancelJump();
+			}
 		}
 	}
 }
@@ -154,6 +159,11 @@ bool GameScreenL1::SetUpLevel()
 }
 void GameScreenL1::DoScreenShake() 
 {
+	for (unsigned int i = 0; i < m_enemies.size(); i++)
+	{
+		m_enemies[i]->TakeDamage();
+	}
+
 	m_screenshake = true;
 	m_shake_time = SHAKE_DURATION;
 	m_wobble = 0.0f;
@@ -161,10 +171,63 @@ void GameScreenL1::DoScreenShake()
 
 void GameScreenL1::UpdateEnemies(float deltaTime, SDL_Event e)
 {
+	if (!m_enemies.empty())
+	{
+		int enemyIndexToDelete = -1;
+		for (unsigned int i = 0; i < m_enemies.size(); i++)
+		{
+			//check if the enemy is on the bottom row of tiles
+			if (m_enemies[i]->GetPosition().y > 300.0f)
+			{
+				//is the enemy off screen to the left / right?
+				if (m_enemies[i]->GetPosition().x < (float)(-m_enemies[i]->GetCollisionsBox().width * 0.5f) || m_enemies[
+					i]->GetPosition().x > SCREEN_WIDTH - (float)(m_enemies[i]->GetCollisionsBox().width * 0.55f))
+					m_enemies[i]->SetAlive(false);
+			}
+			//now do the update
+
+			m_enemies[i]->Update(deltaTime, e);
+
+			//check to see if enemy collides with player
+			if ((m_enemies[i]->GetPosition().y > 300.0f || m_enemies[i]->GetPosition().y <= 64.0f) && (m_enemies[i]->
+				GetPosition().x < 64.0f || m_enemies[i]->GetPosition().x > SCREEN_WIDTH - 96.0f))
+			{
+				//ignore collisions if behind pipe
+			}
+			else
+			{
+				if (Collisions::Instance()->Circle(m_enemies[i], Mario))
+				{
+					if (m_enemies[i]->GetInjured())
+					{
+						m_enemies[i]->SetAlive(false);
+					}
+					else
+					{
+						//kill mario  //no
+					}
+
+				}
+			}
+
+			//if the enemy is no longer alive then schedule it for deletion
+			if (!m_enemies[i]->GetAlive())
+			{
+				enemyIndexToDelete = i;
+			}
+		}
+
+		//remove dead enemies -1 each update
+
+		if (enemyIndexToDelete != -1)
+		{
+			m_enemies.erase(m_enemies.begin() + enemyIndexToDelete);
+		}
+	}
 
 }
 
 void GameScreenL1::CreateKoopa(Vector2D position, FACING direction, float speed)
 {
-
+	m_enemies.push_back( new CharacterKoopa(m_renderer, "Images/Koopa.png", m_level_map, position, direction, speed));
 }
