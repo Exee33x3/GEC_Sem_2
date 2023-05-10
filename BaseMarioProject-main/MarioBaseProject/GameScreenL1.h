@@ -51,7 +51,7 @@ public:
 	void Update(float deltaTime, SDL_Event e) override;
 
 	void UpdatePOWBlock();
-	void CreateKoopa(Vector2D position, FACING direction, float speed);
+
 
 
 
