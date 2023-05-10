@@ -14,7 +14,7 @@ void GameScreenL1::SetLevelMap()
 					  { 0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0 },
 					  { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-					  { 0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0 },
+					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
@@ -155,6 +155,8 @@ bool GameScreenL1::SetUpLevel()
 		return false;
 	}
 
+	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
+	CreateKoopa(Vector2D(320, 32), FACING_RIGHT, KOOPA_SPEED);
 
 }
 void GameScreenL1::DoScreenShake() 

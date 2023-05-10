@@ -16,7 +16,7 @@ private:
 
 
 protected:
-	bool m_alive;
+	bool m_alive = true;
 
 public:
 	~CharacterKoopa();
